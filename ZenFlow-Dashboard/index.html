@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZenFlow // Ambient Mindfulness & Space Console</title>
+    <!-- Tailwind CSS Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                        mono: ['Share Tech Mono', 'monospace'],
+                    },
+                    colors: {
+                        darkspace: '#06070d',
+                        panel: 'rgba(12, 14, 27, 0.45)',
+                        panelBorder: 'rgba(255, 255, 255, 0.06)'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts: Space Grotesk, Plus Jakarta Sans & Share Tech Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Custom Style Sheet (Embedded) -->
+    <style>
+        /* Ambient Animated Blobs */
+        @keyframes float-blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(50px, -70px) scale(1.15); }
+            66% { transform: translate(-30px, 40px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+
+        .animate-blob-1 {
+            animation: float-blob 22s infinite alternate ease-in-out;
+        }
+        .animate-blob-2 {
+            animation: float-blob 28s infinite alternate-reverse ease-in-out;
+        }
+        .animate-blob-3 {
+            animation: float-blob 25s infinite alternate ease-in-out;
+        }
+
+        /* Glassmorphism custom card class */
+        .glass-panel {
+            background: rgba(12, 14, 28, 0.45);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 
+                0 15px 35px 0 rgba(0, 0, 0, 0.5),
+                inset 0 1px 1px rgba(255, 255, 255, 0.08);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass-panel:hover {
+            border-color: rgba(255, 255, 255, 0.12);
+            box-shadow: 
+                0 20px 45px 0 rgba(0, 0, 0, 0.65),
+                inset 0 1px 2px rgba(255, 255, 255, 0.12);
+            transform: translateY(-2px);
+        }
+
+        /* Custom range slider styling */
+        input[type="range"] {
+            -webkit-appearance: none;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 9999px;
+            height: 6px;
+            outline: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #ffffff;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.4);
+            background: #cbd5e1;
+        }
+
+        /* Hide Scrollbar */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Custom Scrollbar for Tasks */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 99px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 99px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        /* Ambient rotating compass */
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin-slow {
+            animation: spin-slow 20s linear infinite;
+        }
+
+        /* Breath Ring breathing pulse */
+        @keyframes breath-ring-pulse {
+            0% { transform: scale(0.65); opacity: 0.35; }
+            50% { transform: scale(1); opacity: 0.85; }
+            100% { transform: scale(0.65); opacity: 0.35; }
+        }
+        .breathing-pulse-outer {
+            animation: breath-ring-pulse 16s ease-in-out infinite;
+        }
+
+        /* Glow effects for slider values */
+        .neon-text-purple { text-shadow: 0 0 10px rgba(168, 85, 247, 0.5); }
+        .neon-text-cyan { text-shadow: 0 0 10px rgba(6, 182, 212, 0.5); }
+        .neon-text-amber { text-shadow: 0 0 10px rgba(245, 158, 11, 0.5); }
+
+        /* Dynamic background glows classes */
+        #bg-glow-1, #bg-glow-2, #bg-glow-3 {
+            transition: all 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Custom switch slider */
+        .switch-toggle {
+            position: relative;
+            display: inline-block;
+            width: 38px;
+            height: 20px;
+        }
+        .switch-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .switch-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .switch-slider:before {
+            position: absolute;
+            content: "";
+            height: 12px; width: 12px;
+            left: 3px; bottom: 3px;
+            background-color: #94a3b8;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .switch-slider {
+            background-color: rgba(168, 85, 247, 0.25);
+            border-color: rgba(168, 85, 247, 0.4);
+        }
+        input:checked + .switch-slider:before {
+            transform: translateX(18px);
+            background-color: #e9d5ff;
+            box-shadow: 0 0 8px #c084fc;
+        }
+
+        /* Todo complete line anim */
+        .todo-item {
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .todo-item.completed {
+            opacity: 0.4;
+            border-color: rgba(255,255,255,0.02);
+            background: rgba(255,255,255,0.01);
+        }
+        .todo-item.completed span {
+            text-decoration: line-through;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body class="bg-darkspace text-slate-200 font-sans h-full overflow-x-hidden selection:bg-purple-600 selection:text-white antialiased">
+    <!-- Glowing background blobs -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div id="bg-glow-1" class="absolute top-[-25%] left-[-15%] w-[60vw] h-[60vw] rounded-full bg-purple-900/10 blur-[150px] animate-blob-1"></div>
+        <div id="bg-glow-2" class="absolute bottom-[-20%] right-[-15%] w-[60vw] h-[60vw] rounded-full bg-cyan-900/10 blur-[150px] animate-blob-2"></div>
+        <div id="bg-glow-3" class="absolute top-[25%] left-[25%] w-[45vw] h-[45vw] rounded-full bg-pink-950/5 blur-[130px] animate-blob-3"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="min-h-screen flex flex-col relative z-10 px-4 py-8 md:px-8 lg:px-12 max-w-7xl mx-auto">
+        <!-- Floating Capsule Header -->
+        <header class="flex flex-col md:flex-row justify-between items-center gap-5 mb-10 bg-panel/30 border border-white/5 backdrop-blur-2xl px-6 py-4 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.4)]">
+            <div class="flex items-center gap-4">
+                <div id="logo-icon" class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-purple-600 to-indigo-500 flex items-center justify-center shadow-lg shadow-purple-500/15 transform transition-transform duration-500 hover:rotate-6">
+                    <i data-lucide="compass" class="w-5 h-5 text-white animate-spin-slow"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold font-display tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-indigo-200 to-cyan-400">ZenFlow</h1>
+                    <p class="text-[9px] text-slate-500 tracking-widest font-semibold uppercase">Ambient Mindfulness Console</p>
+                </div>
+            </div>
+
+            <!-- Mood Buttons -->
+            <div class="flex flex-wrap items-center gap-4">
+                <div class="flex items-center bg-white/5 border border-white/5 rounded-2xl p-1 gap-1">
+                    <span class="text-[10px] font-semibold text-slate-500 px-3 uppercase tracking-wider select-none">Mood:</span>
+                    <button onclick="setMood('focus')" id="mood-focus" class="mood-btn px-3 py-1.5 text-xs font-semibold rounded-xl transition-all duration-300" title="Focus state">Focus</button>
+                    <button onclick="setMood('calm')" id="mood-calm" class="mood-btn px-3 py-1.5 text-xs font-semibold rounded-xl transition-all duration-300" title="Meditation state">Calm</button>
+                    <button onclick="setMood('energy')" id="mood-energy" class="mood-btn px-3 py-1.5 text-xs font-semibold rounded-xl transition-all duration-300" title="Creative energy">Creative</button>
+                    <button onclick="setMood('rest')" id="mood-rest" class="mood-btn px-3 py-1.5 text-xs font-semibold rounded-xl transition-all duration-300" title="Unwinding mode">Unwind</button>
+                </div>
+
+                <!-- Clock -->
+                <div class="flex items-center gap-3 bg-white/5 border border-white/5 px-4 py-2 rounded-2xl shadow-inner">
+                    <i data-lucide="clock" class="w-4 h-4 text-cyan-400 animate-pulse"></i>
+                    <div>
+                        <div id="live-time" class="text-sm font-bold font-mono tracking-widest text-slate-200">00:00:00</div>
+                        <div id="live-date" class="text-[9px] text-slate-500 uppercase font-semibold">August 28, 2026</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Grid Dashboard -->
+        <main class="grid grid-cols-1 lg:grid-cols-12 gap-8 flex-grow">
+            <!-- LEFT PANEL: Chronos & Breathing (4 columns) -->
+            <div class="lg:col-span-4 flex flex-col gap-8">
+                <!-- Pomodoro Card -->
+                <section class="glass-panel p-6 rounded-[2rem] flex flex-col items-center relative overflow-hidden group">
+                    <div class="absolute -right-16 -top-16 w-32 h-32 rounded-full bg-purple-500/5 blur-2xl group-hover:bg-purple-500/10 transition-all duration-700"></div>
+                    
+                    <div class="flex items-center justify-between w-full mb-6 z-10">
+                        <h2 class="text-md font-bold font-display text-slate-200 flex items-center gap-2">
+                            <i data-lucide="hourglass" class="w-4 h-4 text-purple-400"></i> Chronos Engine
+                        </h2>
+                        <!-- Mini Tabs -->
+                        <div class="flex bg-white/5 rounded-xl p-0.5 border border-white/5">
+                            <button onclick="switchTimerMode('focus')" id="mode-pomo" class="px-2.5 py-1 text-[9px] font-bold rounded-lg transition-all">Focus</button>
+                            <button onclick="switchTimerMode('short')" id="mode-short" class="px-2.5 py-1 text-[9px] font-bold rounded-lg transition-all text-slate-400 hover:text-white">Short</button>
+                            <button onclick="switchTimerMode('long')" id="mode-long" class="px-2.5 py-1 text-[9px] font-bold rounded-lg transition-all text-slate-400 hover:text-white">Long</button>
+                        </div>
+                    </div>
+
+                    <!-- Ring visualization -->
+                    <div class="relative w-52 h-52 flex items-center justify-center my-4 select-none z-10">
+                        <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                            <!-- Track Circle -->
+                            <circle cx="50" cy="50" r="42" stroke="rgba(255,255,255,0.015)" stroke-width="3" fill="transparent" />
+                            <!-- Accent Rings (Background Glow) -->
+                            <circle id="timer-progress-glow" cx="50" cy="50" r="42" stroke="#a855f7" stroke-width="4.5" fill="transparent" stroke-dasharray="264" stroke-dashoffset="0" stroke-linecap="round" class="opacity-15 blur-[3px] transition-all duration-300" />
+                            <!-- Progress Circle -->
+                            <circle id="timer-progress" cx="50" cy="50" r="42" stroke="url(#timer-gradient)" stroke-width="4" fill="transparent" stroke-dasharray="264" stroke-dashoffset="0" stroke-linecap="round" class="transition-all duration-300" />
+                            
+                            <defs>
+                                <linearGradient id="timer-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#a855f7" />
+                                    <stop offset="100%" stop-color="#06b6d4" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        
+                        <!-- Inside digits -->
+                        <div class="absolute flex flex-col items-center">
+                            <span id="timer-display" class="text-4xl font-extrabold font-mono text-white tracking-wider filter drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]">25:00</span>
+                            <span id="timer-status-text" class="text-[9px] uppercase font-bold tracking-widest mt-2 px-2.5 py-0.5 rounded-full bg-white/5 border border-white/5 text-purple-400">System Ready</span>
+                        </div>
+                    </div>
+
+                    <!-- Controls -->
+                    <div class="flex items-center gap-4 mt-6 w-full justify-center z-10">
+                        <button id="btn-timer-reset" class="w-11 h-11 rounded-2xl bg-white/5 border border-white/5 flex items-center justify-center hover:bg-white/10 hover:border-white/10 transition-all text-slate-400 hover:text-white" title="Reset">
+                            <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                        </button>
+                        <button id="btn-timer-toggle" class="w-32 py-3 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs uppercase tracking-widest shadow-lg hover:shadow-purple-500/20 hover:scale-[1.03] active:scale-[0.97] transition-all flex items-center justify-center gap-2">
+                            <i data-lucide="play" id="btn-timer-icon" class="w-4 h-4 fill-white"></i> <span id="btn-timer-text">Start</span>
+                        </button>
+                        <button id="btn-timer-skip" class="w-11 h-11 rounded-2xl bg-white/5 border border-white/5 flex items-center justify-center hover:bg-white/10 hover:border-white/10 transition-all text-slate-400 hover:text-white" title="Skip">
+                            <i data-lucide="skip-forward" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Breathing Guide -->
+                <section class="glass-panel p-6 rounded-[2rem] flex flex-col items-center relative overflow-hidden group">
+                    <div class="absolute -left-16 -bottom-16 w-32 h-32 rounded-full bg-cyan-500/5 blur-2xl group-hover:bg-cyan-500/10 transition-all duration-700"></div>
+                    
+                    <div class="flex items-center justify-between w-full mb-6 z-10">
+                        <h2 class="text-md font-bold font-display text-slate-200 flex items-center gap-2">
+                            <i data-lucide="wind" class="w-4 h-4 text-cyan-400"></i> Prana Breath Coach
+                        </h2>
+                        <span id="breath-count" class="text-[9px] font-bold text-slate-400 bg-white/5 px-2.5 py-0.5 rounded-full border border-white/5 uppercase tracking-wider">Cycle: 0</span>
+                    </div>
+
+                    <!-- Breathing bubble -->
+                    <div class="relative w-48 h-48 flex items-center justify-center mb-6 z-10 select-none">
+                        <!-- Orbiting layers -->
+                        <div id="breath-ring-outer" class="absolute w-full h-full rounded-full border border-cyan-500/10 scale-[0.65] transition-all duration-[1500ms] ease-in-out"></div>
+                        <div id="breath-ring-mid" class="absolute w-4/5 h-4/5 rounded-full border border-purple-500/5 scale-[0.75] transition-all duration-[1500ms] ease-in-out"></div>
+                        
+                        <!-- Core bubble -->
+                        <div id="breath-bubble" class="w-28 h-28 rounded-full bg-gradient-to-tr from-cyan-500/90 to-indigo-600/90 flex flex-col items-center justify-center shadow-lg shadow-cyan-500/10 transition-all duration-[1000ms] ease-in-out transform scale-100">
+                            <!-- Inner reflection -->
+                            <div class="w-24 h-24 rounded-full bg-darkspace/50 backdrop-blur-md flex flex-col items-center justify-center border border-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)]">
+                                <span id="breath-action" class="text-[10px] font-bold font-display text-slate-300 tracking-widest uppercase">Start</span>
+                                <span id="breath-timer" class="text-xl font-extrabold text-cyan-400 font-mono mt-1">--</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Instructions -->
+                    <div class="text-center mb-6 max-w-[280px] z-10">
+                        <p id="breath-instruction" class="text-xs text-slate-400 leading-relaxed font-medium">Sync your breathing with the contracting and expanding sphere to lower stress levels.</p>
+                    </div>
+
+                    <!-- Action -->
+                    <button id="btn-breath-toggle" class="w-full py-3 rounded-2xl border border-white/5 bg-white/5 hover:bg-white/10 hover:border-white/10 transition-all text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 text-slate-200 hover:text-white z-10 shadow-md">
+                        <i data-lucide="play-circle" id="btn-breath-icon" class="w-4 h-4"></i> <span id="btn-breath-text">Begin Session</span>
+                    </button>
+                </section>
+            </div>
+
+            <!-- CENTER PANEL: Audio Mixer & Visualizer (5 columns) -->
+            <div class="lg:col-span-5 flex flex-col gap-8">
+                <!-- Synthesizer Rack -->
+                <section class="glass-panel p-6 rounded-[2rem] flex flex-col relative overflow-hidden group">
+                    <div class="absolute -right-10 -bottom-10 w-28 h-28 rounded-full bg-indigo-500/5 blur-2xl group-hover:bg-indigo-500/10 transition-all"></div>
+                    
+                    <div class="flex items-center justify-between mb-6 z-10">
+                        <div>
+                            <h2 class="text-md font-bold font-display text-slate-200 flex items-center gap-2">
+                                <i data-lucide="sliders" class="w-4 h-4 text-indigo-400"></i> Atmos Synthesizer
+                            </h2>
+                            <p class="text-[9px] text-slate-500 uppercase tracking-widest font-semibold mt-1">Local Analogue Sound Generation</p>
+                        </div>
+                        
+                        <!-- Synth master power -->
+                        <button id="btn-audio-master" class="flex items-center gap-2 px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-wider rounded-xl bg-red-500/15 border border-red-500/20 text-red-400 hover:bg-red-500/25 transition-all shadow-inner">
+                            <i data-lucide="volume-x" id="master-vol-icon" class="w-3.5 h-3.5 animate-pulse"></i>
+                            <span id="master-vol-text">Power Off</span>
+                        </button>
+                    </div>
+
+                    <!-- Synth Channels -->
+                    <div class="space-y-5 my-3 z-10">
+                        <!-- Channel 1: Rain -->
+                        <div class="bg-white/5 border border-white/5 p-4 rounded-2xl flex flex-col gap-3 hover:bg-white/10 hover:border-white/10 transition-all duration-300">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-xl bg-blue-500/10 border border-blue-500/15 flex items-center justify-center text-blue-400 shadow-inner">
+                                        <i data-lucide="cloud-rain" class="w-4 h-4"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wide">White Torrent</h3>
+                                        <span class="text-[9px] text-slate-500 font-semibold uppercase tracking-widest">Brownian Noise</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <!-- LED status indicator -->
+                                    <span id="led-rain" class="w-1.5 h-1.5 rounded-full bg-slate-700 transition-all duration-300"></span>
+                                    <label class="switch-toggle">
+                                        <input type="checkbox" onchange="toggleSynthChannel('rain')" id="check-rain">
+                                        <span class="switch-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="volume-1" class="w-3.5 h-3.5 text-slate-500"></i>
+                                <input type="range" id="slider-rain" min="0" max="100" value="50" oninput="adjustSynthVolume('rain', this.value)" class="flex-grow accent-white">
+                                <span id="vol-txt-rain" class="text-[10px] text-slate-400 font-mono w-8 text-right select-none">50%</span>
+                            </div>
+                        </div>
+
+                        <!-- Channel 2: Cosmic Drone -->
+                        <div class="bg-white/5 border border-white/5 p-4 rounded-2xl flex flex-col gap-3 hover:bg-white/10 hover:border-white/10 transition-all duration-300">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-xl bg-purple-500/10 border border-purple-500/15 flex items-center justify-center text-purple-400 shadow-inner">
+                                        <i data-lucide="database" class="w-4 h-4"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wide">Cosmic Drone</h3>
+                                        <span class="text-[9px] text-slate-500 font-semibold uppercase tracking-widest">Analog sweep (55Hz Chord)</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <span id="led-drone" class="w-1.5 h-1.5 rounded-full bg-slate-700 transition-all duration-300"></span>
+                                    <label class="switch-toggle">
+                                        <input type="checkbox" onchange="toggleSynthChannel('drone')" id="check-drone">
+                                        <span class="switch-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="volume-1" class="w-3.5 h-3.5 text-slate-500"></i>
+                                <input type="range" id="slider-drone" min="0" max="100" value="40" oninput="adjustSynthVolume('drone', this.value)" class="flex-grow accent-white">
+                                <span id="vol-txt-drone" class="text-[10px] text-slate-400 font-mono w-8 text-right select-none">40%</span>
+                            </div>
+                        </div>
+
+                        <!-- Channel 3: Binaural Beats -->
+                        <div class="bg-white/5 border border-white/5 p-4 rounded-2xl flex flex-col gap-3 hover:bg-white/10 hover:border-white/10 transition-all duration-300">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-xl bg-teal-500/10 border border-teal-500/15 flex items-center justify-center text-teal-400 shadow-inner">
+                                        <i data-lucide="zap" class="w-4 h-4"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wide">Binaural Waves</h3>
+                                        <span class="text-[9px] text-slate-500 font-semibold uppercase tracking-widest">Theta Waves (6Hz Beat)</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <span id="led-binaural" class="w-1.5 h-1.5 rounded-full bg-slate-700 transition-all duration-300"></span>
+                                    <label class="switch-toggle">
+                                        <input type="checkbox" onchange="toggleSynthChannel('binaural')" id="check-binaural">
+                                        <span class="switch-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="volume-1" class="w-3.5 h-3.5 text-slate-500"></i>
+                                <input type="range" id="slider-binaural" min="0" max="100" value="30" oninput="adjustSynthVolume('binaural', this.value)" class="flex-grow accent-white">
+                                <span id="vol-txt-binaural" class="text-[10px] text-slate-400 font-mono w-8 text-right select-none">30%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Oscilloscope Visualizer Card -->
+                    <div class="bg-slate-950/65 border border-white/5 p-4 rounded-2xl mt-4 z-10 flex flex-col gap-2.5">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[9px] text-slate-500 uppercase tracking-widest font-bold">Oscilloscope Spectrum</span>
+                            <span class="flex items-center gap-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span>
+                                <span class="text-[8px] text-cyan-400 font-bold uppercase tracking-wider">Feed Live</span>
+                            </span>
+                        </div>
+                        <canvas id="audio-canvas" class="w-full h-16 rounded-xl bg-slate-950/40 border border-white/5"></canvas>
+                    </div>
+                </section>
+            </div>
+
+            <!-- RIGHT PANEL: Focus Quests & Stats (3 columns) -->
+            <div class="lg:col-span-3 flex flex-col gap-8">
+                <!-- Focus Quests (Todo) -->
+                <section class="glass-panel p-6 rounded-[2rem] flex flex-col relative overflow-hidden group flex-grow">
+                    <div class="flex items-center justify-between mb-5 z-10">
+                        <h2 class="text-md font-bold font-display text-slate-200 flex items-center gap-2">
+                            <i data-lucide="check-square" class="w-4 h-4 text-purple-400"></i> Focus Quests
+                        </h2>
+                        <span id="tasks-summary" class="text-[10px] font-bold text-slate-500 uppercase tracking-wide">0 / 0 Done</span>
+                    </div>
+
+                    <!-- Input Form -->
+                    <form id="todo-form" class="flex gap-2 mb-4 z-10">
+                        <input type="text" id="todo-input" placeholder="Initiate a focus quest..." class="flex-grow bg-white/5 border border-white/5 rounded-2xl px-4 py-2.5 text-xs focus:outline-none focus:border-purple-500/30 transition-all text-slate-200 placeholder-slate-500 shadow-inner" required>
+                        <button type="submit" class="w-10 h-10 rounded-2xl bg-purple-600 hover:bg-purple-500 flex items-center justify-center text-white transition-all hover:scale-[1.03] shrink-0 shadow-md">
+                            <i data-lucide="plus" class="w-4 h-4"></i>
+                        </button>
+                    </form>
+
+                    <!-- Scrollable Todo List -->
+                    <div class="overflow-y-auto flex-grow max-h-[190px] pr-1 space-y-2.5 custom-scrollbar z-10" id="todo-list">
+                        <!-- Empty placeholder -->
+                        <div class="text-center py-8 text-slate-500 text-[11px] flex flex-col items-center gap-2 select-none" id="empty-todo-state">
+                            <i data-lucide="layers" class="w-6 h-6 text-slate-600"></i>
+                            No focus quests active.<br>Add one to begin.
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Stats Ring Card -->
+                <section class="glass-panel p-6 rounded-[2rem] relative overflow-hidden group">
+                    <h2 class="text-md font-bold font-display text-slate-200 flex items-center gap-2 mb-6 z-10">
+                        <i data-lucide="activity" class="w-4 h-4 text-cyan-400"></i> Mind Analytics
+                    </h2>
+
+                    <div class="flex flex-col items-center py-2 relative z-10">
+                        <div class="relative w-36 h-36 flex items-center justify-center">
+                            <div class="absolute flex flex-col items-center text-center">
+                                <span id="stat-focus-min" class="text-3xl font-extrabold font-mono text-white">0</span>
+                                <span class="text-[8px] uppercase tracking-widest text-slate-500 font-bold mt-1">Focus Mins</span>
+                            </div>
+                            
+                            <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                                <!-- Focus Ring -->
+                                <circle cx="50" cy="50" r="40" stroke="rgba(255,255,255,0.015)" stroke-width="4.5" fill="transparent" />
+                                <circle id="stat-ring-focus" cx="50" cy="50" r="40" stroke="#a855f7" stroke-width="4.5" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="251.2" stroke-linecap="round" class="transition-all duration-1000 ease-out" />
+                                
+                                <!-- Breathing Ring -->
+                                <circle cx="50" cy="50" r="32" stroke="rgba(255,255,255,0.015)" stroke-width="4.5" fill="transparent" />
+                                <circle id="stat-ring-breath" cx="50" cy="50" r="32" stroke="#06b6d4" stroke-width="4.5" fill="transparent" stroke-dasharray="201" stroke-dashoffset="201" stroke-linecap="round" class="transition-all duration-1000 ease-out" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Mini Legends -->
+                    <div class="mt-6 space-y-3 z-10">
+                        <div class="flex items-center justify-between border-t border-white/5 pt-3">
+                            <div class="flex items-center gap-2">
+                                <div class="w-2 h-2 rounded-full bg-purple-500 shadow-[0_0_6px_#a855f7]"></div>
+                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Focus Goal (2h)</span>
+                            </div>
+                            <span id="stat-focus-percent" class="text-[11px] font-mono font-bold text-slate-200">0%</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <div class="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_6px_#06b6d4]"></div>
+                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Breath Goal (10m)</span>
+                            </div>
+                            <span id="stat-breath-percent" class="text-[11px] font-mono font-bold text-slate-200">0%</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Zen Quotes -->
+                <section class="glass-panel p-6 rounded-[2rem] flex flex-col justify-between relative overflow-hidden group">
+                    <div class="flex items-center justify-between mb-4 z-10">
+                        <h2 class="text-[9px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                            <i data-lucide="quote" class="w-3.5 h-3.5 text-pink-400 animate-pulse"></i> Zen Sanctuary
+                        </h2>
+                        <button onclick="fetchNewQuote()" class="w-6 h-6 rounded-lg hover:bg-white/5 flex items-center justify-center text-slate-500 hover:text-white transition-colors" title="Fetch new zen proverb">
+                            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+                        </button>
+                    </div>
+
+                    <!-- Blockquote -->
+                    <div class="my-auto py-1 z-10">
+                        <p id="quote-text" class="text-xs font-semibold italic text-slate-300 leading-relaxed transition-all duration-500 opacity-100">"The present moment is filled with joy and happiness. If you are attentive, you will see it."</p>
+                        <p id="quote-author" class="text-[8px] text-pink-400 mt-3 font-bold uppercase tracking-wider transition-all duration-500 opacity-100">— Thich Nhat Hanh</p>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="mt-10 flex flex-col sm:flex-row justify-between items-center gap-4 text-[10px] text-slate-500 border-t border-white/5 pt-6 pb-2">
+            <p>© 2026 ZenFlow. Engineered with HTML5, CSS & Web Audio Synthesizer.</p>
+            <div class="flex items-center gap-4">
+                <a href="#" class="hover:text-purple-400 transition-colors flex items-center gap-1">
+                    <i data-lucide="help-circle" class="w-3 h-3"></i> System Info
+                </a>
+                <span class="text-white/5">|</span>
+                <span class="flex items-center gap-1.5 text-cyan-400 font-bold uppercase tracking-wider">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> DSP Engine Active
+                </span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Fallback chime -->
+    <audio id="sound-bell" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-84.wav" preload="auto"></audio>
+
+    <!-- Main JavaScript Logic Link -->
+    <script src="app.js"></script>
+</body>
+</html>
