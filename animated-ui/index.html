@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS // Interactive Animated UI Design</title>
+    <meta name="description" content="A futuristic, high-performance interactive animated UI dashboard powered by HTML5, Vanilla CSS3, and JavaScript.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="cyber">
+    <!-- Interactive Background Particle Canvas -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Ambient Glowing Orbs -->
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+    <div class="glow-orb glow-orb-3"></div>
+
+    <div class="app-container">
+        <!-- Navigation Bar -->
+        <header class="glass-header" id="mainHeader">
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <i data-lucide="zap"></i>
+                </div>
+                <span class="logo-text">NEXUS<span class="highlight">.UI</span></span>
+                <span class="status-badge pulse-dot">ONLINE</span>
+            </div>
+
+            <nav class="nav-links">
+                <a href="#overview" class="nav-link active"><i data-lucide="layout-dashboard"></i> Overview</a>
+                <a href="#visualizer" class="nav-link"><i data-lucide="activity"></i> Spectrum</a>
+                <a href="#analytics" class="nav-link"><i data-lucide="bar-chart-3"></i> Analytics</a>
+                <a href="#widgets" class="nav-link"><i data-lucide="sliders"></i> Controls</a>
+            </nav>
+
+            <div class="header-actions">
+                <button class="icon-btn" id="cmdBtn" title="Search (Ctrl + K)">
+                    <i data-lucide="search"></i>
+                    <kbd>⌘K</kbd>
+                </button>
+
+                <div class="theme-selector">
+                    <button class="theme-btn active" data-set-theme="cyber" title="Cyber Neon"></button>
+                    <button class="theme-btn" data-set-theme="aurora" title="Aurora Violet"></button>
+                    <button class="theme-btn" data-set-theme="sunset" title="Sunset Gold"></button>
+                    <button class="theme-btn" data-set-theme="matrix" title="Matrix Emerald"></button>
+                </div>
+
+                <div class="clock-badge" id="liveClock">00:00:00</div>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <main class="main-content">
+            <!-- Hero Feature Banner -->
+            <section class="hero-banner glass-card" id="overview">
+                <div class="hero-text-content">
+                    <div class="pill-tag">
+                        <span class="sparkle-icon">✨</span> Animated UI Architecture
+                    </div>
+                    <h1 class="glitch-title" data-text="Next-Gen Dynamic User Interface">Next-Gen Dynamic <span class="gradient-text">User Interface</span></h1>
+                    <p class="hero-subtitle">
+                        An ultra-responsive, 60fps glassmorphic dashboard featuring physics particle backgrounds, dynamic audio visualizers, 3D tilt cards, and real-time interactive controls.
+                    </p>
+                    <div class="hero-action-group">
+                        <button class="btn btn-primary ripple-trigger" id="exploreBtn">
+                            <i data-lucide="sparkles"></i> Launch Interactive Demo
+                        </button>
+                        <button class="btn btn-secondary ripple-trigger" id="triggerNotificationBtn">
+                            <i data-lucide="bell"></i> Send Live Alert
+                        </button>
+                    </div>
+                </div>
+
+                <div class="hero-visual-card tilt-card" id="heroTiltCard">
+                    <div class="artwork-wrapper">
+                        <img src="assets/art.png" alt="Futuristic Neon Artwork" class="hero-art-img">
+                        <div class="artwork-overlay"></div>
+                        <div class="live-chip">
+                            <span class="live-dot"></span> 60 FPS Canvas Engine
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Stats Metric Cards Grid -->
+            <section class="metrics-grid">
+                <div class="stat-card glass-card tilt-card" id="statCard1">
+                    <div class="stat-icon-wrapper cyan">
+                        <i data-lucide="cpu"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Core Performance</span>
+                        <div class="stat-value-row">
+                            <h2 class="stat-number" data-target="99">0</h2><span class="unit">%</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-fill cyan-fill" style="width: 99%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card glass-card tilt-card" id="statCard2">
+                    <div class="stat-icon-wrapper violet">
+                        <i data-lucide="waves"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Animation Framerate</span>
+                        <div class="stat-value-row">
+                            <h2 class="stat-number" data-target="60">0</h2><span class="unit">FPS</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-fill violet-fill" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card glass-card tilt-card" id="statCard3">
+                    <div class="stat-icon-wrapper amber">
+                        <i data-lucide="zap"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Response Time</span>
+                        <div class="stat-value-row">
+                            <h2 class="stat-number" data-target="1.4" data-decimals="1">0</h2><span class="unit">ms</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-fill amber-fill" style="width: 92%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card glass-card tilt-card" id="statCard4">
+                    <div class="stat-icon-wrapper emerald">
+                        <i data-lucide="shield-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">System Integrity</span>
+                        <div class="stat-value-row">
+                            <h2 class="stat-number" data-target="100">0</h2><span class="unit">%</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-fill emerald-fill" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Audio Waveform Visualizer & Interactive Chart Section -->
+            <section class="split-view">
+                <!-- Audio Synthesizer Visualizer Card -->
+                <div class="glass-card visualizer-card" id="visualizer">
+                    <div class="card-header">
+                        <div class="title-with-icon">
+                            <i data-lucide="radio" class="cyan-icon"></i>
+                            <div>
+                                <h3>Interactive Audio Spectrum</h3>
+                                <p class="card-subtitle">Real-time canvas frequency waveform simulation</p>
+                            </div>
+                        </div>
+                        <button class="audio-play-btn" id="audioToggleBtn" title="Toggle Synthesizer">
+                            <i data-lucide="play" id="playIcon"></i>
+                        </button>
+                    </div>
+
+                    <div class="canvas-wrapper">
+                        <canvas id="audioCanvas"></canvas>
+                        <div class="canvas-grid-overlay"></div>
+                    </div>
+
+                    <div class="visualizer-controls">
+                        <div class="control-item">
+                            <label><i data-lucide="sliders-horizontal"></i> Speed Multiplier</label>
+                            <input type="range" id="speedSlider" min="0.5" max="3" step="0.1" value="1.5">
+                        </div>
+                        <div class="control-item">
+                            <label><i data-lucide="activity"></i> Wave Complexity</label>
+                            <input type="range" id="waveSlider" min="5" max="40" step="1" value="20">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive SVG Analytics Chart Card -->
+                <div class="glass-card chart-card" id="analytics">
+                    <div class="card-header">
+                        <div class="title-with-icon">
+                            <i data-lucide="line-chart" class="violet-icon"></i>
+                            <div>
+                                <h3>Real-Time Data Pulse</h3>
+                                <p class="card-subtitle">Live animated SVG vector curve</p>
+                            </div>
+                        </div>
+                        <button class="btn btn-sm btn-outline" id="randomizeChartBtn">
+                            <i data-lucide="refresh-cw"></i> Refresh Data
+                        </button>
+                    </div>
+
+                    <div class="svg-chart-container">
+                        <svg viewBox="0 0 500 200" class="animated-svg-chart">
+                            <defs>
+                                <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="var(--primary)" stop-opacity="0.4" />
+                                    <stop offset="100%" stop-color="var(--primary)" stop-opacity="0.0" />
+                                </linearGradient>
+                                <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                                    <feGaussianBlur stdDeviation="6" result="blur" />
+                                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                                </filter>
+                            </defs>
+                            <!-- Grid lines -->
+                            <line x1="0" y1="50" x2="500" y2="50" class="chart-grid-line"/>
+                            <line x1="0" y1="100" x2="500" y2="100" class="chart-grid-line"/>
+                            <line x1="0" y1="150" x2="500" y2="150" class="chart-grid-line"/>
+
+                            <!-- Area fill -->
+                            <path id="chartArea" d="M0,200 L0,140 Q100,20 200,100 T400,60 T500,120 L500,200 Z" fill="url(#chartGradient)" />
+                            
+                            <!-- Stroke line -->
+                            <path id="chartPath" class="chart-path" d="M0,140 Q100,20 200,100 T400,60 T500,120" fill="none" stroke="var(--primary)" stroke-width="4" filter="url(#glow)" />
+                        </svg>
+
+                        <div class="chart-points-container" id="chartPoints">
+                            <!-- Dynamic SVG point pulses inserted by JS -->
+                        </div>
+                    </div>
+
+                    <div class="chart-legend">
+                        <span class="legend-item"><span class="dot primary"></span> System Load</span>
+                        <span class="legend-item"><span class="dot secondary"></span> Network I/O</span>
+                        <span class="legend-item"><span class="dot accent"></span> Cache Hits</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- User Profile & Dynamic Controls Grid -->
+            <section class="split-view reverse-layout" id="widgets">
+                <!-- User Profile & Skill Meters Card -->
+                <div class="glass-card profile-card tilt-card" id="profileCard">
+                    <div class="profile-header">
+                        <div class="avatar-ring">
+                            <img src="assets/avatar.png" alt="User Avatar" class="profile-img">
+                            <span class="online-indicator"></span>
+                        </div>
+                        <div class="profile-meta">
+                            <h3 class="profile-name">Alex Rivera</h3>
+                            <span class="profile-title">Principal UI Architect</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-meters-list">
+                        <div class="skill-meter">
+                            <div class="skill-info">
+                                <span>CSS3 Keyframe Engine</span>
+                                <span class="skill-val">98%</span>
+                            </div>
+                            <div class="meter-bar"><div class="meter-fill" style="width: 98%;"></div></div>
+                        </div>
+
+                        <div class="skill-meter">
+                            <div class="skill-info">
+                                <span>HTML5 Canvas Physics</span>
+                                <span class="skill-val">94%</span>
+                            </div>
+                            <div class="meter-bar"><div class="meter-fill" style="width: 94%;"></div></div>
+                        </div>
+
+                        <div class="skill-meter">
+                            <div class="skill-info">
+                                <span>JavaScript ES6+ State</span>
+                                <span class="skill-val">96%</span>
+                            </div>
+                            <div class="meter-bar"><div class="meter-fill" style="width: 96%;"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Animated Controls Card -->
+                <div class="glass-card controls-card">
+                    <div class="card-header">
+                        <div class="title-with-icon">
+                            <i data-lucide="toggle-left" class="amber-icon"></i>
+                            <div>
+                                <h3>Interactive UI Triggers</h3>
+                                <p class="card-subtitle">Custom switches, glow sliders & ambient toggles</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-rows-grid">
+                        <div class="switch-row">
+                            <div class="switch-meta">
+                                <span class="switch-title">Particle Constellation</span>
+                                <span class="switch-desc">Toggle mouse tracking background particles</span>
+                            </div>
+                            <label class="custom-switch">
+                                <input type="checkbox" id="toggleParticles" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+
+                        <div class="switch-row">
+                            <div class="switch-meta">
+                                <span class="switch-title">Ambient Pulsing Orbs</span>
+                                <span class="switch-desc">Toggle smooth background glass gradients</span>
+                            </div>
+                            <label class="custom-switch">
+                                <input type="checkbox" id="toggleOrbs" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+
+                        <div class="switch-row">
+                            <div class="switch-meta">
+                                <span class="switch-title">3D Tilt Effects</span>
+                                <span class="switch-desc">Enable dynamic gyroscope card tilting</span>
+                            </div>
+                            <label class="custom-switch">
+                                <input type="checkbox" id="toggleTilt" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+
+                        <div class="slider-row">
+                            <div class="slider-header">
+                                <span>Glass Glow Intensity</span>
+                                <span id="glowVal">80%</span>
+                            </div>
+                            <input type="range" id="glowSlider" min="20" max="100" value="80" class="custom-range">
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Floating Animated Bottom Dock -->
+        <div class="dock-container" id="animatedDock">
+            <div class="dock-glass-bar">
+                <button class="dock-item active" data-tooltip="Dashboard" id="dockHome">
+                    <i data-lucide="home"></i>
+                </button>
+                <button class="dock-item" data-tooltip="Audio Spectrum" id="dockAudio">
+                    <i data-lucide="music"></i>
+                </button>
+                <button class="dock-item" data-tooltip="Analytics Pulse" id="dockAnalytics">
+                    <i data-lucide="pie-chart"></i>
+                </button>
+                <button class="dock-item" data-tooltip="Search Command" id="dockSearch">
+                    <i data-lucide="search"></i>
+                </button>
+                <div class="dock-divider"></div>
+                <button class="dock-item" data-tooltip="Trigger Toast Alert" id="dockToast">
+                    <i data-lucide="bell-ring"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Search Command Modal (Ctrl + K) -->
+    <div class="modal-backdrop" id="commandModal">
+        <div class="modal-content glass-card">
+            <div class="modal-search-header">
+                <i data-lucide="search" class="search-modal-icon"></i>
+                <input type="text" id="commandInput" placeholder="Search components, trigger animations..." autofocus>
+                <span class="esc-badge">ESC</span>
+            </div>
+            <div class="modal-list" id="commandList">
+                <div class="command-item" data-action="theme-cyber">
+                    <i data-lucide="palette"></i> Switch Theme: Cyber Neon
+                </div>
+                <div class="command-item" data-action="theme-aurora">
+                    <i data-lucide="palette"></i> Switch Theme: Aurora Violet
+                </div>
+                <div class="command-item" data-action="audio-toggle">
+                    <i data-lucide="play-circle"></i> Play/Pause Audio Visualizer
+                </div>
+                <div class="command-item" data-action="refresh-chart">
+                    <i data-lucide="refresh-cw"></i> Refresh Vector Chart Points
+                </div>
+                <div class="command-item" data-action="toast-alert">
+                    <i data-lucide="check-circle-2"></i> Trigger Success Notification
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="app.js"></script>
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>
