@@ -1,0 +1,204 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html, body{
+    height: 100%;
+    width: 100%;
+    font-family: Arial, Helvetica, sans-serif
+}
+/* body height is set dynamically by script.js to match the content height,
+   so the native scrollbar still works and reflects real page length */
+body{
+    overflow-x: hidden;
+}
+#main{
+    width: 100%;
+    /* #main is turned into the "smooth scroll" layer:
+       it stays fixed and JS moves it up/down with a lerp (lag) animation
+       instead of relying on the browser's native jump-to-position scroll. */
+    position: fixed;
+    top: 0;
+    left: 0;
+    will-change: transform;
+}
+#hero{
+    color: white;
+    width: 100%;
+    height: 100vh;
+    background-color: black;
+    /* Needed so #hero-footer (position:absolute) anchors to THIS section's
+       bottom, not to #main's full page height (which happened after #main
+       became position:fixed for the smooth-scroll effect). */
+    position: relative;
+}
+#nav{
+    width: 100%;
+    padding: 40px 43px;
+    color: #ffff;
+    display: flex;  /** Element ko Row ya column me arrange karne ke liye flex ka use hota hai **/
+    align-items: center;
+    justify-content: space-between; /** Element ke bich equal space dene ke liye use hota hai **/
+}
+#nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 22px;
+}
+#heading{
+    margin-left: 50px;
+}
+#heading h1{
+    opacity: 0.6;
+    font-size: 9vw;
+    text-transform:uppercase; 
+}
+#heading #Secondh1{
+    margin-left: 250px;
+}
+.blocktext{
+    width : fit-content;
+}
+.blocktext h5{
+   text-align: right;
+   font-size: 17px;
+}
+#SmallHeading{
+    margin-top: 150px;
+    padding-right: 50px;
+}
+#SmallHeading h5{
+    text-align: right;
+    text-transform: uppercase;
+    margin-top: .5vw;
+    font-size: 1vw;
+}
+#hero-footer{
+    width: 100%;
+    position: absolute;
+    bottom: 5% ;
+    margin-right: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+}
+#hero-footer a {
+    color: #ffff;
+    text-transform: uppercase;
+    font-size: 17px;
+    margin-left: 20px;
+}
+#hero-footer  #circle{
+    display: flex;
+    gap: 5px;
+   
+}
+#hero-footer #circle .circle{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: #5c5959;
+
+}
+#second{
+    padding-top: 140px;
+    width: 100%;
+    height: 100vh;
+    background-color:black;
+   
+}
+.element{
+    background-color: rgb(0, 0, 0);
+    min-height: 180px;
+   color: rgb(157, 149, 149);
+
+   /* Needed so the video-wrap (absolute) sits correctly inside the card
+      and the card itself can scale/shadow/glow on hover */
+   position: relative;
+   overflow: visible;          /* changed: video is now allowed to spill slightly outside the card */
+   border: 1px solid transparent;
+   border-radius: 6px;
+   transform: scale(1);
+   transition: transform .4s ease, box-shadow .4s ease, border-color .4s ease; /* smooth 300-500ms premium feel */
+   cursor: pointer;
+}
+
+/* Only the cards that actually have a video get the premium hover lift.
+   .video-wrap only exists inside BMW/Bugati/Lamborgini cards. */
+.element:has(.video-wrap):hover,
+.element.is-hovered{ /* .is-hovered is added by JS as a fallback for browsers without :has() */
+    transform: scale(1.03);                                  /* slight scale-up */
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.55);              /* soft shadow */
+    border-color: rgba(255, 255, 255, 0.35);                  /* border glow */
+}
+
+/* Wrapper that positions the video inside its card */
+.video-wrap{
+    position: absolute;
+    inset: 0;
+    overflow: visible;     /* changed: video can now poke out past the card edge */
+    z-index: 2;
+    pointer-events: none;  /* clicks/hover pass through to .element */
+}
+
+.element-video{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;              /* fills the card cleanly, no distortion */
+    transform: translate(0px, 0px) scale(1.02) translateZ(0); /* tiny scale so it still covers the box fully */
+    opacity: 0;                     /* hidden until cursor enters (JS toggles .is-playing) */
+    transition: opacity .4s ease, transform .15s ease-out; /* smooth fade + follow movement */
+    /* Force the video onto its own GPU compositing layer, isolated from the
+       constantly-animating ancestor transforms (#main smooth scroll + .element
+       hover scale). Without this, some browsers/GPUs render the playing video
+       as solid black when it's nested under multiple transformed ancestors. */
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    isolation: isolate;
+}
+
+.element-video.is-playing{
+    opacity: 1;
+}
+
+.element-content{
+    position: relative;
+    z-index: 2;   /* keeps title/year text above the video */
+    width: 96%;   /* jitni line chahiye */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid #888;
+   
+    
+}
+  .element-content h1{
+    padding: 5vw 3vw;
+    font-size: 90px;
+    margin : 0;
+  
+
+}
+
+
+/* ---------- Responsive tweaks (desktop and mobile) ---------- */
+@media (max-width: 768px){
+    .element-content h1{
+        font-size: 12vw;   /* scale title down on small screens */
+        padding: 4vw 3vw;
+    }
+    .element h5{
+        padding-right: 20px;
+        font-size: 14px;
+    }
+    /* Keep hover-glow subtle on touch devices since there is no real cursor */
+    .element:hover{
+        transform: scale(1.015);
+    }
+}
