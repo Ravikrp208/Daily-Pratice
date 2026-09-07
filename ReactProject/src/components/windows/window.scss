@@ -1,0 +1,131 @@
+.window {
+    background: rgba(20, 20, 26, 0.88);
+    border-radius: 12px;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    color: #e2e8f0;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+    font-weight: 500;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    backdrop-filter: blur(35px) saturate(200%);
+    -webkit-backdrop-filter: blur(35px) saturate(200%);
+
+    box-shadow: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.75),
+        0 0 1px rgba(255, 255, 255, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+        border-color: rgba(255, 255, 255, 0.22);
+    }
+
+    &.maximized {
+        border-radius: 8px;
+    }
+
+    .nav {
+        padding-inline: 0.85rem;
+        padding-block: 0.6rem;
+        background: rgba(255, 255, 255, 0.04);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+        display: flex;
+        align-items: center;
+        position: relative;
+        user-select: none;
+
+        .dots {
+            display: flex;
+            gap: 0.45rem;
+            align-items: center;
+            z-index: 2;
+
+            .dot {
+                height: 12px;
+                width: 12px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: transform 0.15s ease, filter 0.15s ease;
+
+                span {
+                    font-size: 10px;
+                    font-weight: 800;
+                    opacity: 0;
+                    color: rgba(0, 0, 0, 0.6);
+                    transition: opacity 0.15s ease;
+                    line-height: 1;
+                }
+
+                &:hover span {
+                    opacity: 1;
+                }
+
+                &:active {
+                    transform: scale(0.9);
+                }
+            }
+
+            &:hover .dot span {
+                opacity: 0.8;
+            }
+
+            .red {
+                background-color: #ff5f56;
+                border: 1px solid #e0443e;
+            }
+
+            .yellow {
+                background-color: #ffbd2e;
+                border: 1px solid #dea123;
+            }
+
+            .green {
+                background-color: #27c93f;
+                border: 1px solid #1aab29;
+            }
+        }
+
+        .title {
+            position: absolute;
+            left: 0;
+            right: 0;
+            text-align: center;
+            pointer-events: none;
+
+            p {
+                font-size: 0.8rem;
+                font-weight: 500;
+                color: rgba(255, 255, 255, 0.75);
+                letter-spacing: -0.01em;
+            }
+        }
+    }
+
+    .main-content {
+        flex: 1;
+        height: calc(100% - 36px);
+        overflow: hidden;
+    }
+
+    *::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+
+    *::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+    }
+
+    *::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.35);
+    }
+}
