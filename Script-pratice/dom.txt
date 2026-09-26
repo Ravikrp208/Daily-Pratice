@@ -1,0 +1,238 @@
+DOM in JavaScript
+1. What is DOM?
+
+DOM = Document Object Model
+
+The DOM is a programming interface that allows JavaScript to access and change HTML elements and content of a webpage.
+
+For example, HTML:
+
+<h1>Hello</h1>
+<p>Welcome</p>
+
+The browser converts this HTML into a tree of objects called the DOM.
+
+Document
+   |
+   └── html
+        |
+        ├── head
+        |
+        └── body
+             |
+             ├── h1
+             |    └── "Hello"
+             |
+             └── p
+                  └── "Welcome"
+
+JavaScript can use this DOM to change the webpage.
+
+2. Simple DOM Example
+HTML
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DOM Example</title>
+</head>
+<body>
+
+    <h1 id="title">Hello</h1>
+
+    <script>
+        document.getElementById("title").innerText = "Hello JavaScript";
+    </script>
+
+</body>
+</html>
+
+Initially:
+
+Hello
+
+After JavaScript runs:
+
+Hello JavaScript
+3. Selecting HTML Elements
+
+JavaScript provides several methods to select elements.
+
+getElementById()
+const title = document.getElementById("title");
+
+HTML:
+
+<h1 id="title">Hello</h1>
+getElementsByClassName()
+const items = document.getElementsByClassName("item");
+
+HTML:
+
+<p class="item">Apple</p>
+<p class="item">Banana</p>
+getElementsByTagName()
+const paragraphs = document.getElementsByTagName("p");
+querySelector()
+
+Selects the first matching element.
+
+const title = document.querySelector("#title");
+
+Class:
+
+const item = document.querySelector(".item");
+
+Tag:
+
+const heading = document.querySelector("h1");
+querySelectorAll()
+
+Selects all matching elements.
+
+const items = document.querySelectorAll(".item");
+4. Changing HTML Content
+innerText
+document.getElementById("title").innerText = "New Title";
+textContent
+document.getElementById("title").textContent = "New Title";
+innerHTML
+
+Can insert HTML.
+
+document.getElementById("box").innerHTML =
+    "<b>Hello JavaScript</b>";
+5. Changing CSS
+
+You can change CSS using .style.
+
+HTML
+<h1 id="title">Hello</h1>
+JavaScript
+const title = document.getElementById("title");
+
+title.style.color = "red";
+title.style.backgroundColor = "yellow";
+title.style.fontSize = "40px";
+6. Changing Attributes
+
+HTML:
+
+<img id="image" src="old.jpg">
+
+JavaScript:
+
+const image = document.getElementById("image");
+
+image.setAttribute("src", "new.jpg");
+
+Get an attribute:
+
+console.log(image.getAttribute("src"));
+
+Remove an attribute:
+
+image.removeAttribute("src");
+7. Creating New Elements
+
+JavaScript can create HTML elements.
+
+const paragraph = document.createElement("p");
+
+paragraph.innerText = "Hello from JavaScript";
+
+document.body.appendChild(paragraph);
+
+This creates:
+
+<p>Hello from JavaScript</p>
+8. Events ⭐
+
+Events are actions performed by the user.
+
+Examples:
+
+click
+mouseover
+keydown
+submit
+change
+HTML
+<button id="btn">Click Me</button>
+JavaScript
+const button = document.getElementById("btn");
+
+button.addEventListener("click", function () {
+    console.log("Button clicked!");
+});
+
+When you click the button:
+
+Button clicked!
+9. Practical Example 🔥
+HTML
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DOM Practice</title>
+</head>
+
+<body>
+
+    <h1 id="title">Hello</h1>
+
+    <button id="btn">Change Text</button>
+
+    <script>
+        const title = document.getElementById("title");
+        const button = document.getElementById("btn");
+
+        button.addEventListener("click", function () {
+            title.innerText = "Hello JavaScript!";
+            title.style.color = "blue";
+        });
+    </script>
+
+</body>
+</html>
+What happens?
+
+Before clicking:
+
+Hello
+
+[Change Text]
+
+After clicking:
+
+Hello JavaScript!
+
+[Change Text]
+
+The text and color change because JavaScript modified the DOM.
+
+10. Important DOM Methods
+Method	Purpose
+getElementById()	Select by ID
+querySelector()	Select first matching element
+querySelectorAll()	Select all matching elements
+innerText	Change text
+innerHTML	Change HTML
+createElement()	Create element
+appendChild()	Add element
+remove()	Remove element
+setAttribute()	Set attribute
+getAttribute()	Get attribute
+addEventListener()	Handle events
+11. DOM vs JavaScript
+
+Remember:
+
+JavaScript
+    ↓
+Uses DOM
+    ↓
+Access HTML
+    ↓
+Modify HTML/CSS
+    ↓
+Change webpage
