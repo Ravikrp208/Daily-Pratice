@@ -1,4 +1,4 @@
-public class SwitchExample {
+public class switc{
     public static void main(String[] args) {
         int day = 3;
         String dayName;
