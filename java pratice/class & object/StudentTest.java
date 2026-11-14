@@ -13,7 +13,7 @@ class Student {
     }
 }
 
-public class Main {
+public class StudentTest {
 
     public static void main(String[] args) {
 

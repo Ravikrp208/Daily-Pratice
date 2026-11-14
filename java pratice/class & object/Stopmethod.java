@@ -12,7 +12,7 @@ class Car {
     }
 }
 
-public class Main {
+public class Stopmethod {
     public static void main(String[] args) {
 
         Car c1 = new Car();
