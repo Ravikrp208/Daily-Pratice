@@ -20,7 +20,7 @@ class Student {
     }
 }
 
-public class Main {
+public class Encapsulation {
     public static void main(String[] args) {
 
         Student s = new Student();
