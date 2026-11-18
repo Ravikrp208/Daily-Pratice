@@ -10,7 +10,7 @@ class Student {
     }
 }
 
-public class Main {
+public class Simple_student {
     public static void main(String[] args) {
 
         Student s1 = new Student();

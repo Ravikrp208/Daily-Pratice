@@ -13,7 +13,7 @@ class Calculator {
     }
 }
 
-public class methodoverload {
+public class Methodoverload {
     public static void main(String[] args) {
 
         Calculator c = new Calculator();
