@@ -1,4 +1,4 @@
-class Student {
+public class cusromer {
     private int marks;
 
     public void setMarks(int marks) {
