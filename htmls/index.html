@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>User Registration</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <span>👤</span>
+            <h2>User Registration</h2>
+        </div>
+
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </div>
+    </nav>
+
+
+    <!-- Main Container -->
+    <main class="container">
+
+        <!-- Registration Form -->
+        <section class="form-card">
+
+            <div class="heading">
+                <div class="heading-icon">👤</div>
+
+                <div>
+                    <h1>Create Your Account</h1>
+                    <p>Fill in the details below to get started.</p>
+                </div>
+            </div>
+
+
+            <form id="registrationForm">
+
+                <div class="form-grid">
+
+                    <!-- Name -->
+                    <div class="form-group">
+                        <label>Full Name <span>*</span></label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            placeholder="Enter your full name"
+                            required
+                        >
+                    </div>
+
+
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label>Email Address <span>*</span></label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="Enter your email"
+                            required
+                        >
+                    </div>
+
+
+                    <!-- Password -->
+                    <div class="form-group">
+                        <label>Password <span>*</span></label>
+
+                        <div class="password-box">
+                            <input
+                                type="password"
+                                id="password"
+                                placeholder="Enter your password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="eye-btn"
+                                id="passwordEye"
+                            >
+                                👁
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <!-- Confirm Password -->
+                    <div class="form-group">
+                        <label>Confirm Password <span>*</span></label>
+
+                        <div class="password-box">
+                            <input
+                                type="password"
+                                id="confirmPassword"
+                                placeholder="Re-enter your password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="eye-btn"
+                                id="confirmEye"
+                            >
+                                👁
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <!-- Age -->
+                    <div class="form-group">
+                        <label>Age <span>*</span></label>
+
+                        <input
+                            type="number"
+                            id="age"
+                            placeholder="Enter your age"
+                            min="1"
+                            max="100"
+                            required
+                        >
+                    </div>
+
+
+                    <!-- Gender -->
+                    <div class="form-group">
+                        <label>Gender <span>*</span></label>
+
+                        <div class="radio-group">
+
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="gender"
+                                    value="Male"
+                                    required
+                                >
+                                Male
+                            </label>
+
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="gender"
+                                    value="Female"
+                                >
+                                Female
+                            </label>
+
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="gender"
+                                    value="Other"
+                                >
+                                Other
+                            </label>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- Skills -->
+                <div class="form-group skills-section">
+
+                    <label>Skills <span>*</span></label>
+
+                    <div class="skills">
+
+                        <label>
+                            <input type="checkbox" value="HTML" class="skill">
+                            HTML
+                        </label>
+
+                        <label>
+                            <input type="checkbox" value="CSS" class="skill">
+                            CSS
+                        </label>
+
+                        <label>
+                            <input type="checkbox" value="JavaScript" class="skill">
+                            JavaScript
+                        </label>
+
+                        <label>
+                            <input type="checkbox" value="React" class="skill">
+                            React
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Bottom Grid -->
+                <div class="bottom-grid">
+
+                    <!-- Profile Picture -->
+                    <div class="form-group">
+
+                        <label>Profile Picture</label>
+
+                        <input
+                            type="file"
+                            id="profile"
+                            accept="image/*"
+                        >
+
+                    </div>
+
+
+                    <!-- About -->
+                    <div class="form-group">
+
+                        <label>About You</label>
+
+                        <textarea
+                            id="about"
+                            placeholder="Tell us something about yourself..."
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Submit -->
+                <button type="submit" class="register-btn">
+                    🚀 Register
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- Preview Card -->
+        <section class="preview-card">
+
+            <div class="preview-heading">
+
+                <div class="preview-icon">
+                    👁
+                </div>
+
+                <div>
+                    <h2>Live Preview</h2>
+                    <p>Your details will appear here after submission.</p>
+                </div>
+
+            </div>
+
+
+            <div class="preview-content">
+
+                <div class="profile-image">
+
+                    <img
+                        id="previewImage"
+                        src="https://via.placeholder.com/120"
+                        alt="Profile"
+                    >
+
+                </div>
+
+
+                <h2 id="previewName">
+                    Welcome!
+                </h2>
+
+                <p id="welcomeText">
+                    Fill the form and click Register
+                    to see your details here.
+                </p>
+
+
+                <div class="details">
+
+                    <div class="detail">
+                        <span>👤</span>
+                        <strong>Name</strong>
+                        <p id="showName">-</p>
+                    </div>
+
+
+                    <div class="detail">
+                        <span>✉️</span>
+                        <strong>Email</strong>
+                        <p id="showEmail">-</p>
+                    </div>
+
+
+                    <div class="detail">
+                        <span>🎂</span>
+                        <strong>Age</strong>
+                        <p id="showAge">-</p>
+                    </div>
+
+
+                    <div class="detail">
+                        <span>⚧</span>
+                        <strong>Gender</strong>
+                        <p id="showGender">-</p>
+                    </div>
+
+
+                    <div class="detail">
+                        <span>⭐</span>
+                        <strong>Skills</strong>
+                        <p id="showSkills">-</p>
+                    </div>
+
+
+                    <div class="detail">
+                        <span>📝</span>
+                        <strong>About</strong>
+                        <p id="showAbout">-</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+        Made with ❤️ using HTML, CSS & JavaScript
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
